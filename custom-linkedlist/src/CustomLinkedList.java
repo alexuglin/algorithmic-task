@@ -24,8 +24,12 @@ public class CustomLinkedList extends AbstractCollection implements Cloneable {
             this.next = next;
         }
 
+        public Element getValue() {
+            return value;
+        }
+
         public Node deepCopy() throws CloneNotSupportedException {
-            return new Node((Element) value.clone(),  next != null ? next.deepCopy() : null);
+            return new Node((Element) value.clone(), next != null ? next.deepCopy() : null);
         }
 
         @Override
@@ -47,6 +51,7 @@ public class CustomLinkedList extends AbstractCollection implements Cloneable {
         return head;
     }
 
+
     public void setHead(Node head) {
         this.head = head;
     }
@@ -58,7 +63,30 @@ public class CustomLinkedList extends AbstractCollection implements Cloneable {
 
     @Override
     public Iterator iterator() {
-        return null;
+        return new Iterator() {
+            Node nextNode = head;
+            Node prevNode = head;
+
+            @Override
+            public boolean hasNext() {
+                return nextNode != null;
+            }
+
+            @Override
+            public Object next() {
+                prevNode = nextNode;
+                nextNode = nextNode.next;
+                return nextNode;
+            }
+
+            @Override
+            public void remove() {
+                prevNode.next = nextNode.next;
+                nextNode.next = null;
+                nextNode = prevNode.next;
+                length--;
+            }
+        };
     }
 
     @Override
@@ -71,14 +99,8 @@ public class CustomLinkedList extends AbstractCollection implements Cloneable {
     }
 
     @Override
-    public boolean remove(Object o) {
-        return false;
-    }
-
-    @Override
     public void clear() {
-        head = null;
-        tail = null;
+        super.clear();
         length = 0;
     }
 

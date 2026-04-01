@@ -23,6 +23,14 @@ public class Element implements Cloneable, Serializable {
         this.longValue = longValue;
     }
 
+    public int getIntValue() {
+        return intValue;
+    }
+
+    public long getLongValue() {
+        return longValue;
+    }
+
     @Override
     public String toString() {
         return "Element{" +
