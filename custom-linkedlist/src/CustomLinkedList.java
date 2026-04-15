@@ -1,21 +1,22 @@
+import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Iterator;
 
-public class CustomLinkedList extends AbstractCollection implements Cloneable {
+public class CustomLinkedList<T extends Serializable> extends AbstractCollection implements Cloneable {
 
-    private Node head;
+    private Node<T> head;
 
-    private Node tail;
+    private Node<T> tail;
 
     private int length;
 
-    public static class Node {
+    public static class Node<T> {
 
-        private Element value;
+        private T value;
 
-        private Node next;
+        private Node<T> next;
 
-        public Node(Element value, Node next) {
+        public Node(T value, Node next) {
             this.value = value;
             this.next = next;
         }
@@ -24,12 +25,12 @@ public class CustomLinkedList extends AbstractCollection implements Cloneable {
             this.next = next;
         }
 
-        public Element getValue() {
+        public T getValue() {
             return value;
         }
 
         public Node deepCopy() throws CloneNotSupportedException {
-            return new Node((Element) value.clone(), next != null ? next.deepCopy() : null);
+            return new Node(value, next != null ? next.deepCopy() : null);
         }
 
         @Override
@@ -41,7 +42,7 @@ public class CustomLinkedList extends AbstractCollection implements Cloneable {
         }
     }
 
-    public CustomLinkedList(Element value) {
+    public CustomLinkedList(T value) {
         head = new Node(value, null);
         tail = this.head;
         length++;
